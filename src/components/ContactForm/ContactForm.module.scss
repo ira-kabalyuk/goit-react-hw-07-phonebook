@@ -1,0 +1,16 @@
+.form {
+  width: 200px;
+  display: grid;
+  grid-gap: 20px;
+  margin-bottom: 40px;
+}
+
+.label {
+  display: grid;
+  grid-gap: 8px;
+}
+
+button {
+  border: 0;
+  padding: 5px 10px;
+}
