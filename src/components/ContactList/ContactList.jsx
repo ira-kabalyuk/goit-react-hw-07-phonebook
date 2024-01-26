@@ -34,7 +34,7 @@ const ContactList = () => {
     );
   }
 
-  const visibleContacts = getVisisbleContacts() || [];
+  const visibleContacts = getVisisbleContacts();
 
   const showContacts = status === STATUSES.success;
   const showError = status === STATUSES.error;
