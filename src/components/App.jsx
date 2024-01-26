@@ -12,8 +12,8 @@ import { Loader } from './Loader';
 const App = () => {
 
   //const dispatch = useDispatch();
-  const error = useSelector(state => state.contacts.contacts.error);
-  const loading = useSelector(state => state.contacts.contacts.isLoading);
+  // const error = useSelector(state => state.contacts.contacts.error);
+  // const loading = useSelector(state => state.contacts.contacts.isLoading);
 
   // useEffect(() => {
   //   dispatch(apiGetContacts())
@@ -23,7 +23,7 @@ const App = () => {
     <Container>
       <ContactForm/>
       <Filter />
-      {loading && !error && <Loader />}
+      {/* {loading && !error && <Loader />} */}
       <ContactList/>
     </Container>
   );

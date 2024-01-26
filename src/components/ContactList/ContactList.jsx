@@ -4,6 +4,7 @@ import { apiGetContacts, removeContact } from '../../redux/contacts/contactsRedu
 import styles from './ContactList.module.scss';
 import { STATUSES } from 'utils/constants';
 import { Loader } from 'components/Loader';
+import { Error } from 'components/Error';
 
 const ContactList = () => {
 
@@ -28,22 +29,26 @@ const ContactList = () => {
   const getVisisbleContacts = () => {
     const normalizedFilter = filter.toLowerCase();
     
-    // return contacts?.filter(contact =>
-    //   contact.name.toLowerCase().includes(normalizedFilter)
-    // );
+    return contacts?.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter)
+    );
   }
 
   const visibleContacts = getVisisbleContacts() || [];
 
+  const showContacts = status === STATUSES.success;
+  const showError = status === STATUSES.error;
+  const showLoader = status === STATUSES.pending;
 
   return (
     <div>
-      {status === STATUSES.pending && <p className={styles.message}>{loading}</p>}
-      {status === STATUSES.error && <p className={styles.message}>{error}</p>}
-      {contacts.length > 0 ? (
+      {showLoader && <Loader /> && <p className={styles.message}>{loading}</p>}
+      {showError && <Error>Oops, some error occurred... {error}</Error>}
+
+      {(contacts.length > 0 && showContacts && <Loader />) &&
         <ul className={styles.list}>
           {visibleContacts.map(({ id, name, phone }) => (
-            <li className={styles.item} key={id}>
+            <li className={styles.item} key={id+phone}>
               <span>{name}</span>
               <span>{phone}</span>
               <button className={styles.button} onClick={() => onDeleteContact(id)}>
@@ -52,9 +57,7 @@ const ContactList = () => {
             </li>
           ))}
         </ul>
-      ) : (
-        <p className={styles.message}>contact not found &#129335;</p>
-      )}
+      }
     </div>
   );
 };

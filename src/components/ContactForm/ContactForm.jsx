@@ -11,7 +11,7 @@ const ContactForm = () => {
 
   const dispatch = useDispatch();
 
-  const contacts = useSelector((store) => store.contacts.contacts.items);
+  const contacts = useSelector((state) => state.contacts.contacts.items);
 
   const createContact = (name, number) => {
     
@@ -26,8 +26,7 @@ const ContactForm = () => {
       return alert(`${name} is already in phonebook`);
     }
 
-    const action = addContact(contact);
-      dispatch(action);
+      dispatch(addContact(contact));
     
       dispatch(apiPostContact(contact));
   };
@@ -53,7 +52,7 @@ const ContactForm = () => {
     event.preventDefault();
     createContact(name, number);
     reset();
-  }
+  }  
 
   return (
     <>
