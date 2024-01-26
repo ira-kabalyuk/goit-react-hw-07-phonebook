@@ -1,35 +1,38 @@
 import React, { useState } from 'react';
-import shortid from 'shortid';
 import styles from './ContactForm.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from '../../redux/contacts/contactsReducer';
+import { addContact, apiPostContact } from '../../redux/contacts/contactsReducer';
 
 
 const ContactForm = () => {
+  
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
   const dispatch = useDispatch();
 
-  const contacts = useSelector((store) => store.contacts.contacts);
+  const contacts = useSelector((store) => store.contacts.contacts.items);
 
-    const createContact = (name, number) => {
+  const createContact = (name, number) => {
+    
     const contact = {
-      id: shortid.generate(),
       name,
       number,
-    };
+    };    
 
     if (contacts?.find(
-        contact => contact.name.toLowerCase() === name.toLowerCase()
-    ))
+      contact => contact.name.toLowerCase() === name.toLowerCase()))
     {
       return alert(`${name} is already in phonebook`);
     }
 
     const action = addContact(contact);
-    dispatch(action);
+      dispatch(action);
+    
+      dispatch(apiPostContact(contact));
   };
+
+
 
   const handleChange = event => {
     const { name, value } = event.currentTarget;
@@ -40,17 +43,17 @@ const ContactForm = () => {
     if (name === 'number')
       setNumber(value);
   };
-
-  const handleSubmit = event => {
-    event.preventDefault();
-    createContact(name, number);
-    reset();
-  }
   
   const reset = () => {
     setName('');
     setNumber('');
   };
+  
+  const handleSubmit = event => {
+    event.preventDefault();
+    createContact(name, number);
+    reset();
+  }
 
   return (
     <>
