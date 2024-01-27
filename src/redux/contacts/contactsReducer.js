@@ -61,8 +61,8 @@ const contactsSlice = createSlice({
     })
     .addCase(apiPostContact.fulfilled, (state, action) => {
       state.contacts.status = STATUSES.success;
-      state.contacts.items = Array.isArray(action.payload) ? action.payload : [action.payload];
-    })   
+      state.contacts.items =  [...state.contacts.items, action.payload];
+    })
     .addCase(apiPostContact.rejected, (state, action) => {
       state.contacts.status = STATUSES.error;
       state.contacts.error = action.payload;
