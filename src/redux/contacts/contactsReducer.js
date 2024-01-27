@@ -35,14 +35,7 @@ const contactsSlice = createSlice({
   name: "contacts",
   initialState,
   reducers: {
-    
-    addContact(state, action) {
-      console.log(state, 'state')
-      state.contacts.items = [...state.contacts.items, action.payload];
-    },
-    removeContact(state, action) {
-      state.contacts.items = state.contacts.items.filter(contact => contact.id !== action.payload);
-    },
+
     setFilter(state, action) {
       state.filter = action.payload;
     },
@@ -68,14 +61,14 @@ const contactsSlice = createSlice({
     })
     .addCase(apiPostContact.fulfilled, (state, action) => {
       state.contacts.status = STATUSES.success;
-      state.contacts.items = action.payload;
-    })
+      state.contacts.items = Array.isArray(action.payload) ? action.payload : [action.payload];
+    })   
     .addCase(apiPostContact.rejected, (state, action) => {
       state.contacts.status = STATUSES.error;
       state.contacts.error = action.payload;
     })
 });
 
-export const { addContact, removeContact, setFilter } = contactsSlice.actions;
+export const { setFilter } = contactsSlice.actions;
 
 export const contactsReducer = contactsSlice.reducer;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './ContactForm.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact, apiPostContact } from '../../redux/contacts/contactsReducer';
+import { apiPostContact } from '../../redux/contacts/contactsReducer';
 
 
 const ContactForm = () => {
@@ -18,7 +18,8 @@ const ContactForm = () => {
     const contact = {
       name,
       number,
-    };    
+    };
+    console.log(contact, 'addContact')
 
     if (contacts?.find(
       contact => contact.name.toLowerCase() === name.toLowerCase()))
@@ -26,11 +27,11 @@ const ContactForm = () => {
       return alert(`${name} is already in phonebook`);
     }
 
-      dispatch(addContact(contact));
+      //dispatch(addContact(contact));
     
-      dispatch(apiPostContact(contact));
+    dispatch(apiPostContact(contact));
+    
   };
-
 
 
   const handleChange = event => {
