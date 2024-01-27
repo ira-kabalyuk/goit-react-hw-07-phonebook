@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { apiGetContacts } from '../../redux/contacts/contactsReducer';
-import styles from './ContactList.module.scss';
+import { apiDeleteContact, apiGetContacts } from '../../redux/contacts/contactsReducer';
 import { STATUSES } from 'utils/constants';
 import { Loader } from 'components/Loader';
 import { Error } from 'components/Error';
+
+import styles from './ContactList.module.scss';
 
 const ContactList = () => {
 
@@ -18,14 +19,14 @@ const ContactList = () => {
 
    useEffect(() => {
      dispatch(apiGetContacts())
-  }, [dispatch])
-
-   const onDeleteContact = contactId => {
-    
-    // const action = removeContact(contactId)
-    // dispatch(action);
-   }
+   }, [dispatch])
   
+ 
+  const onDeleteContact = (contactId) => {
+    dispatch(apiDeleteContact(contactId));    
+  }
+  
+ 
   const getVisisbleContacts = () => {
     const normalizedFilter = filter.toLowerCase();
     
@@ -42,22 +43,22 @@ const ContactList = () => {
 
   return (
     <div>
-      {showLoader && <Loader /> && <p className={styles.message}>{loading}</p>}
+      {showLoader && <Loader />}
       {showError && <Error>Oops, some error occurred... {error}</Error>}
 
-      {(contacts.length > 0 && showContacts && <Loader />) &&
+      {visibleContacts.length > 0 && showContacts && (
         <ul className={styles.list}>
           {visibleContacts.map(({ id, name, phone }) => (
-            <li className={styles.item} key={id+phone}>
+            <li className={styles.item} key={id + phone}>
               <span>{name}</span>
               <span>{phone}</span>
-              <button className={styles.button} onClick={() => onDeleteContact(id)}>
+              <button type='button' className={styles.button} onClick={() => onDeleteContact(id)}>
                 Delete
               </button>
             </li>
           ))}
         </ul>
-      }
+      )}
     </div>
   );
 };

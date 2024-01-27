@@ -19,15 +19,12 @@ const ContactForm = () => {
       name,
       number,
     };
-    console.log(contact, 'addContact')
 
     if (contacts?.find(
       contact => contact.name.toLowerCase() === name.toLowerCase()))
     {
       return alert(`${name} is already in phonebook`);
-    }
-
-      //dispatch(addContact(contact));
+    }    
     
     dispatch(apiPostContact(contact));
     

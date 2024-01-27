@@ -20,3 +20,9 @@ export const addContactRequest = async (name, phone) => {
   return data;
 };
 
+export const deleteContactRequest = async (id) => {
+  const { data } = await instance.delete(`/contacts/contacts/${id}`);
+  return data;
+};
+
+
