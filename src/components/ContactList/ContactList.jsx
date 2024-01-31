@@ -30,7 +30,6 @@ const ContactList = () => {
 
   const visibleContacts = filteredContacts; // мемоізація
 
-  const showContacts = status === STATUSES.success;
   const showError = status === STATUSES.error;
   const showLoader = status === STATUSES.pending;
 
@@ -39,7 +38,7 @@ const ContactList = () => {
       {showLoader && <Loader />}
       {showError && <Error>Oops, some error occurred...</Error>}
 
-      {(visibleContacts.length > 0 && showContacts) ? (
+      {(visibleContacts.length > 0 ) ? (
         <ul className={styles.list}>
           {visibleContacts.map(({ id, name, phone }) => (
             <li className={styles.item} key={id + phone}>
