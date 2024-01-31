@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './ContactForm.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { apiPostContact } from '../../redux/contacts/contactsReducer';
+import { selectContacts } from '../../redux/contacts/contactsSlice.selectors';
 
 
 const ContactForm = () => {
@@ -11,7 +12,7 @@ const ContactForm = () => {
 
   const dispatch = useDispatch();
 
-  const contacts = useSelector((state) => state.contacts.contacts.items);
+  const contacts = useSelector(selectContacts);
 
   const createContact = (name, number) => {
     

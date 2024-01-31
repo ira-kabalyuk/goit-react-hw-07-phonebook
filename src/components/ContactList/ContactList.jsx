@@ -6,16 +6,18 @@ import { Loader } from 'components/Loader';
 import { Error } from 'components/Error';
 
 import styles from './ContactList.module.scss';
+import {  
+  selectContactsStatus,
+  selectFilteredContacts
+} from '../../redux/contacts/contactsSlice.selectors';
 
 const ContactList = () => {
 
   const dispatch = useDispatch();
 
-  const contacts = useSelector(state => state.contacts.contacts.items);
-  const filter = useSelector(state => state.contacts.filter);
-  const status = useSelector(state => state.contacts.contacts.status);
-  const error = useSelector(state => state.contacts.contacts.error);
-  const loading = useSelector(state => state.contacts.contacts.isLoading);
+  const status = useSelector(selectContactsStatus);
+
+  const filteredContacts = useSelector(selectFilteredContacts)
 
    useEffect(() => {
      dispatch(apiGetContacts())
@@ -23,19 +25,10 @@ const ContactList = () => {
   
  
   const onDeleteContact = (contactId) => {
-    dispatch(apiDeleteContact(contactId));    
-  }
-  
- 
-  const getVisisbleContacts = () => {
-    const normalizedFilter = filter.toLowerCase();
-    
-    return contacts?.filter(contact =>
-      contact.name.toLowerCase().includes(normalizedFilter)
-    );
+    dispatch(apiDeleteContact(contactId));
   }
 
-  const visibleContacts = getVisisbleContacts();
+  const visibleContacts = filteredContacts; // мемоізація
 
   const showContacts = status === STATUSES.success;
   const showError = status === STATUSES.error;
@@ -44,9 +37,9 @@ const ContactList = () => {
   return (
     <div>
       {showLoader && <Loader />}
-      {showError && <Error>Oops, some error occurred... {error}</Error>}
+      {showError && <Error>Oops, some error occurred...</Error>}
 
-      {visibleContacts.length > 0 && showContacts && (
+      {(visibleContacts.length > 0 && showContacts) ? (
         <ul className={styles.list}>
           {visibleContacts.map(({ id, name, phone }) => (
             <li className={styles.item} key={id + phone}>
@@ -58,7 +51,7 @@ const ContactList = () => {
             </li>
           ))}
         </ul>
-      )}
+      ) : <Error>Contact not found &#129335;</Error>}
     </div>
   );
 };

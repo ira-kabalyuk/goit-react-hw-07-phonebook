@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './Filter.module.scss';
 import { setFilter } from '../../redux/contacts/contactsReducer';
+import { selectContactsFilter } from '../../redux/contacts/contactsSlice.selectors';
 
   const Filter = () => {
   const dispatch = useDispatch();
 
-  const filter = useSelector(state => state.contacts.filter);
+  const filter = useSelector(selectContactsFilter);
 
    const changeFilter = event => {
 
